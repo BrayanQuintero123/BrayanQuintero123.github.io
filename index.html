@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Página Personal</title>
+    <link rel="icon" type="image/png" href="mine.jpeg">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            text-align: center;
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #333;
+        }
+        p {
+            color: #666;
+            line-height: 1.6;
+        }
+        .social-links a {
+            display: inline-block;
+            margin: 10px;
+            text-decoration: none;
+            color: #0073e6;
+        }
+        .profile-img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 20px;
+        }
+        .project {
+            margin-bottom: 20px;
+            text-align: left;
+            position: relative;
+        }
+        .project h3 {
+            color: #333;
+        }
+        .project p {
+            color: #666;
+        }
+        .project .date {
+            color: #999;
+            font-size: 0.9em;
+        }
+
+        /* Estilos de la imagen */
+        .project-img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            position: relative;
+            border-radius: 10px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        /* Animaciones de Hover en las imágenes */
+        .project-img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Estilos para el texto centrado sobre la imagen */
+        .overlay-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white !important;  /* Forzar el color blanco */
+            font-size: 24px;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+            text-align: center;
+        }
+
+        /* Evitar cambios de color si el texto es un enlace */
+        .overlay-text a {
+            color: white !important;
+            text-decoration: none;  /* Opcional: evitar subrayado */
+        }
+
+        .overlay-text a:visited,
+        .overlay-text a:hover,
+        .overlay-text a:active {
+            color: white !important;
+        }
+        .project:hover .overlay-text {
+            color: #007BFF; /* Cambia el color del texto al pasar el mouse */
+        }
+
+        /* Estilos para la sección de Educación */
+        .education {
+            margin-top: 50px;
+            padding: 30px;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .education h2 {
+            color: #333;
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        .degree {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            position: relative;
+            animation: slideUp 1s ease-out;
+            opacity: 1; /* Asegura que la opacidad sea siempre visible */
+            animation-fill-mode: forwards; /* Mantiene el estado final de la animación */
+        }
+
+        .degree:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        .degree .title {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .degree .institution {
+            font-size: 1.1em;
+            color: #555;
+            margin: 10px 0;
+        }
+
+        .degree .date {
+            color: #888;
+            font-size: 1em;
+        }
+
+        .degree .gpa {
+            color: #007BFF;
+            font-size: 1.1em;
+            margin-top: 10px;
+        }
+
+        .degree ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 10px 0;
+        }
+
+        .degree ul li {
+            color: #666;
+            font-size: 1em;
+            margin-bottom: 8px;
+            animation: fadeIn 1s ease-out;
+            opacity: 1; /* Mantiene la opacidad al 100% */
+        }
+
+        .degree .gpa span {
+            font-weight: bold;
+        }
+
+        /* Animaciones */
+        @keyframes slideUp {
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="mine.jpeg" alt="Mi Foto" class="profile-img">
+        <h1>Brayan Yesid Quintero Santander</h1>
+        <p>ᯤ Hello! I am a Systems Engineering student 🤓 at the Universidad Industrial de Santander 🎓. My projects focus on computer vision 👁️ and deep learning 🧠. Additionally, I am passionate about the universe 🌌 and enjoy exploring topics that combine astrophysics 🚀 and computing 💻.</p>
+        
+        <h2>Educación</h2>
+        <div class="education">
+            <div class="degree">
+                <div class="title">BSc Systems Engineer</div>
+                <div class="institution">Universidad Industrial de Santander</div>
+                <div class="date">March 2022 – December 2026 (expected)</div>
+                <div class="gpa">GPA: <span>3.85/5.0</span></div>
+                <h3>Courses included:</h3>
+                <ul>
+                    <li>Digital Image Processing</li>
+                    <li>Artificial Intelligence</li>
+                    <li>Machine Learning</li>
+                    <li>Data Structures</li>
+                    <li>Computer Networks</li>
+                </ul>
+            </div>
+        </div>
+        
+        <h2>Certificados</h2>
+        <p>...</p>
+        
+        <h2>Projects</h2>
+        <div class="project">
+            <img src="diabetes.jpeg" alt="Logo Proyecto 1" class="project-img">
+            <div class="overlay-text"><a href="https://github.com/BrayanQuintero123/Diabetes-Classification" target="_blank">Diabetes Classification</a></div>
+            <p>We implemented several classification models to determine the presence or absence of diabetes in female patients over 18 years of age. We also used a neural network model using TensorFlow.
+            </p>
+            <p class="date">Dec 6, 2024</p>
+        </div>
+        <div class="project">
+            <img src="intel.jpg" alt="Logo Proyecto 2" class="project-img">
+            <div class="overlay-text"><a href="https://github.com/BrayanQuintero123/proyectoNavie/tree/main" target="_blank"> Project Naive Intel Image Classification </a></div>
+            <p>I implemented a deep learning-based classification model using PyTorch leveraging convolutional neural networks (CNNs) to accurately categorize images.</p>
+            <p class="date">Jan 20, 2025</p>
+        </div>
+        <div class="project">
+            <img src="stat.png" alt="Logo Proyecto 3" class="project-img">
+            <div class="overlay-text"><a href="https://github.com/BrayanQuintero123/MarketAnalytics/tree/main" target="_blank"> Market Analytics: Sales, Genres & Trends</a></div>
+            <p>This project explores the VGChartz video game sales dataset from Kaggle through statistical analysis and data visualizations. We identify key trends in the gaming industry, including the best-selling companies, the most popular genres and platforms, and regional sales distributions.
+                By examining sales evolution over time and highlighting top-performing titles, this analysis provides insights into market dynamics and the factors contributing to industry success.</p>
+            <p class="date">Jul 4, 2024</p>
+        </div>
+        
+        <h2>Contacto</h2>
+        <div class="social-links">
+            <a href="https://github.com/BrayanQuintero123" target="_blank">GitHub</a>
+            <a href="https://www.linkedin.com/in/brayan-quintero-7426a2205/" target="_blank">LinkedIn</a>
+            <a href="byquintero.4@gmail.com">Correo Electrónico</a>
+        </div>
+    </div>
+</body>
+</html>
