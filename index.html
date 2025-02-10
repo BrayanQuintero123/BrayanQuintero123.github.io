@@ -174,6 +174,58 @@
             font-weight: bold;
         }
 
+        /* Contenedor de certificados */
+        .certificates {
+            margin-top: 50px;
+            padding: 30px;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        /* Tarjeta del certificado */
+        .certificate {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            text-align: left;
+            position: relative;
+            animation: fadeInUp 1s ease-out;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .certificate:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Estilos del logo Nvidia */
+        .certificate-logo {
+            width: 50px;
+            height: auto;
+            position: absolute;
+            top: 15px;
+            right: 15px;
+        }
+
+        /* Estilos del enlace */
+        .certificate-link {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 8px 15px;
+            background-color: #007BFF;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        .certificate-link:hover {
+            background-color: #0056b3;
+        }
         /* Animaciones */
         @keyframes slideUp {
             from {
@@ -203,7 +255,7 @@
         <h1>Brayan Yesid Quintero Santander</h1>
         <p>ᯤ Hello! I am a Systems Engineering student 🤓 at the Universidad Industrial de Santander 🎓. My projects focus on computer vision 👁️ and deep learning 🧠. Additionally, I am passionate about the universe 🌌 and enjoy exploring topics that combine astrophysics 🚀 and computing 💻.</p>
         
-        <h2>Educación</h2>
+        <h2>Education</h2>
         <div class="education">
             <div class="degree">
                 <div class="title">BSc Systems Engineer</div>
@@ -221,10 +273,41 @@
             </div>
         </div>
         
-        <h2>Certificados</h2>
-        <p>...</p>
+        <div class="certificates">
+            <h2>Certificados</h2>
+            
+            <div class="certificate">
+                <img src="Nvidia_logo.png" alt="Nvidia Logo" class="certificate-logo">
+                <div class="title">Fundamentals of Deep Learning</div>
+                <div class="institution">Nvidia</div>
+                <div class="date">February 2025</div>
+                <div class="description">
+                    Fundamentals of Deep Learning is a course that introduces students to the world of deep learning.
+                </div>
+                <a href="https://learn.nvidia.com/certificates?id=GUiXUDtFRrSKXhGsAt2Xlw" class="certificate-link">See here</a>
+            </div>
+
+            <div class="certificate">
+                <img src="ef.png" alt="Nvidia Logo" class="certificate-logo">
+                <div class="title">English certificate</div>
+                <div class="institution">EF SET</div>
+                <div class="date">February 2023</div>
+                <div class="description">
+                    online certificate language exams
+                </div>
+                <a href="https://cert.efset.org/Lp9BcR" class="certificate-link">See here</a>
+            </div>
+
+        </div>
         
         <h2>Projects</h2>
+        <div class="project">
+            <img src="intel.jpg" alt="Logo Proyecto 2" class="project-img">
+            <div class="overlay-text"><a href="https://github.com/BrayanQuintero123/proyectoNavie/tree/main" target="_blank"> Project Naive Intel Image Classification </a></div>
+            <p>I implemented a deep learning-based classification model using PyTorch leveraging convolutional neural networks (CNNs) to accurately categorize images.</p>
+            <p class="date">Jan 20, 2025</p>
+        </div>
+
         <div class="project">
             <img src="diabetes.jpeg" alt="Logo Proyecto 1" class="project-img">
             <div class="overlay-text"><a href="https://github.com/BrayanQuintero123/Diabetes-Classification" target="_blank">Diabetes Classification</a></div>
@@ -232,12 +315,14 @@
             </p>
             <p class="date">Dec 6, 2024</p>
         </div>
+
         <div class="project">
-            <img src="intel.jpg" alt="Logo Proyecto 2" class="project-img">
-            <div class="overlay-text"><a href="https://github.com/BrayanQuintero123/proyectoNavie/tree/main" target="_blank"> Project Naive Intel Image Classification </a></div>
-            <p>I implemented a deep learning-based classification model using PyTorch leveraging convolutional neural networks (CNNs) to accurately categorize images.</p>
-            <p class="date">Jan 20, 2025</p>
+            <img src="poster.jpeg" alt="Logo Proyecto 3" class="project-img">
+            <div class="overlay-text"><a href="https://github.com/CristianR8/spectral-image-classifier" target="_blank"> Spectral image classifier </a></div>
+            <p>In this project, we use the Pavia Center dataset, which represents a region of the city of Pavia in Italy, to perform advanced hyperspectral image analysis.</p>
+            <p class="date">Sep 15, 2024</p>
         </div>
+
         <div class="project">
             <img src="stat.png" alt="Logo Proyecto 3" class="project-img">
             <div class="overlay-text"><a href="https://github.com/BrayanQuintero123/MarketAnalytics/tree/main" target="_blank"> Market Analytics: Sales, Genres & Trends</a></div>
@@ -250,7 +335,7 @@
         <div class="social-links">
             <a href="https://github.com/BrayanQuintero123" target="_blank">GitHub</a>
             <a href="https://www.linkedin.com/in/brayan-quintero-7426a2205/" target="_blank">LinkedIn</a>
-            <a href="byquintero.4@gmail.com">Correo Electrónico</a>
+            <a href="https://brayanquintero123.github.io/">byquintero.4@gmail.com</a>
         </div>
     </div>
 </body>
