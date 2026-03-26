@@ -1,342 +1,1140 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Página Personal</title>
-    <link rel="icon" type="image/png" href="mine.jpeg">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-            text-align: center;
-        }
-        .container {
-            max-width: 800px;
-            margin: 50px auto;
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-        }
-        h1 {
-            color: #333;
-        }
-        p {
-            color: #666;
-            line-height: 1.6;
-        }
-        .social-links a {
-            display: inline-block;
-            margin: 10px;
-            text-decoration: none;
-            color: #0073e6;
-        }
-        .profile-img {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-bottom: 20px;
-        }
-        .project {
-            margin-bottom: 20px;
-            text-align: left;
-            position: relative;
-        }
-        .project h3 {
-            color: #333;
-        }
-        .project p {
-            color: #666;
-        }
-        .project .date {
-            color: #999;
-            font-size: 0.9em;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Portafolio académico y tecnológico de Brayan Yesid Quintero Santander" />
+  <title>Brayan Quintero | Academic Portfolio</title>
+  <style>
+    :root {
+      --bg: #07111f;
+      --bg-2: #0c1b31;
+      --panel: rgba(10, 18, 35, 0.72);
+      --panel-strong: rgba(9, 16, 29, 0.92);
+      --text: #eaf2ff;
+      --muted: #a4b4d4;
+      --line: rgba(255,255,255,.1);
+      --accent: #70b8ff;
+      --accent-2: #8d7dff;
+      --accent-3: #44e0c7;
+      --shadow: 0 20px 60px rgba(0,0,0,.35);
+      --radius-xl: 28px;
+      --radius-lg: 22px;
+      --radius-md: 16px;
+      --max: 1180px;
+    }
 
-        /* Estilos de la imagen */
-        .project-img {
-            width: 100%;
-            height: 400px;
-            object-fit: cover;
-            position: relative;
-            border-radius: 10px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      background:
+        radial-gradient(circle at 10% 20%, rgba(112,184,255,.18), transparent 0 30%),
+        radial-gradient(circle at 90% 10%, rgba(141,125,255,.14), transparent 0 24%),
+        radial-gradient(circle at 70% 80%, rgba(68,224,199,.1), transparent 0 25%),
+        linear-gradient(180deg, #050b16 0%, #08111f 38%, #0a1526 100%);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
 
-        /* Animaciones de Hover en las imágenes */
-        .project-img:hover {
-            transform: scale(1.05);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-        }
+    body.light {
+      --bg: #f3f7ff;
+      --bg-2: #ffffff;
+      --panel: rgba(255,255,255,.78);
+      --panel-strong: rgba(255,255,255,.92);
+      --text: #10203e;
+      --muted: #5c6882;
+      --line: rgba(117, 145, 199, 0.1);
+      --shadow: 0 20px 60px rgba(40,58,93,.15);
+      background:
+        radial-gradient(circle at 10% 20%, rgba(112,184,255,.18), transparent 0 35%),
+        radial-gradient(circle at 90% 10%, rgba(141,125,255,.14), transparent 0 30%),
+        linear-gradient(180deg, #edf3ff 0%, #f8fbff 100%);
+    }
 
-        /* Estilos para el texto centrado sobre la imagen */
-        .overlay-text {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: white !important;  /* Forzar el color blanco */
-            font-size: 24px;
-            font-weight: bold;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
-            text-align: center;
-        }
+    canvas#starfield {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -3;
+      opacity: .95;
+    }
 
-        /* Evitar cambios de color si el texto es un enlace */
-        .overlay-text a {
-            color: white !important;
-            text-decoration: none;  /* Opcional: evitar subrayado */
-        }
+    .noise, .spotlight {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: -2;
+    }
 
-        .overlay-text a:visited,
-        .overlay-text a:hover,
-        .overlay-text a:active {
-            color: white !important;
-        }
-        .project:hover .overlay-text {
-            color: #007BFF; /* Cambia el color del texto al pasar el mouse */
-        }
+    .noise {
+      opacity: .08;
+      background-image:
+        radial-gradient(circle at 20% 20%, rgba(255,255,255,.18) 0 1px, transparent 1px),
+        radial-gradient(circle at 80% 30%, rgba(255,255,255,.12) 0 1px, transparent 1px),
+        radial-gradient(circle at 40% 80%, rgba(255,255,255,.1) 0 1px, transparent 1px);
+      background-size: 180px 180px, 220px 220px, 260px 260px;
+      mix-blend-mode: soft-light;
+    }
 
-        /* Estilos para la sección de Educación */
-        .education {
-            margin-top: 50px;
-            padding: 30px;
-            background-color: #f9f9f9;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
+    .spotlight {
+      background: radial-gradient(340px circle at var(--mx, 50%) var(--my, 50%), rgba(112,184,255,.10), transparent 70%);
+      z-index: -1;
+    }
 
-        .education h2 {
-            color: #333;
-            font-size: 2em;
-            margin-bottom: 20px;
-        }
+    .wrap { width: min(var(--max), calc(100% - 32px)); margin: 0 auto; }
 
-        .degree {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
-            position: relative;
-            animation: slideUp 1s ease-out;
-            opacity: 1; /* Asegura que la opacidad sea siempre visible */
-            animation-fill-mode: forwards; /* Mantiene el estado final de la animación */
-        }
+    .topbar {
+      position: sticky;
+      top: 14px;
+      z-index: 50;
+      padding-top: 14px;
+    }
 
-        .degree:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-        }
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 14px 18px;
+      border: 1px solid var(--line);
+      background: rgba(8,14,27,.55);
+      backdrop-filter: blur(18px) saturate(140%);
+      border-radius: 999px;
+      box-shadow: var(--shadow);
+    }
 
-        .degree .title {
-            font-size: 1.5em;
-            font-weight: bold;
-            color: #333;
-        }
+    body.light .nav { background: rgba(255,255,255,.72); }
 
-        .degree .institution {
-            font-size: 1.1em;
-            color: #555;
-            margin: 10px 0;
-        }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+      letter-spacing: .2px;
+    }
 
-        .degree .date {
-            color: #888;
-            font-size: 1em;
-        }
+    .brand-badge {
+      width: 40px;
+      height: 40px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      color: white;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.35), 0 8px 24px rgba(112,184,255,.35);
+    }
 
-        .degree .gpa {
-            color: #007BFF;
-            font-size: 1.1em;
-            margin-top: 10px;
-        }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
 
-        .degree ul {
-            list-style-type: none;
-            padding: 0;
-            margin: 10px 0;
-        }
+    .nav-links a, .toggle-btn, .chip-btn {
+      color: var(--muted);
+      text-decoration: none;
+      border: 1px solid transparent;
+      padding: 10px 14px;
+      border-radius: 999px;
+      transition: .25s ease;
+      background: transparent;
+      cursor: pointer;
+      font: inherit;
+    }
 
-        .degree ul li {
-            color: #666;
-            font-size: 1em;
-            margin-bottom: 8px;
-            animation: fadeIn 1s ease-out;
-            opacity: 1; /* Mantiene la opacidad al 100% */
-        }
+    .nav-links a:hover, .nav-links a.active, .toggle-btn:hover, .chip-btn:hover, .chip-btn.active {
+      color: var(--text);
+      border-color: var(--line);
+      background: rgba(231, 16, 16, 0.06);
+    }
 
-        .degree .gpa span {
-            font-weight: bold;
-        }
+    .hero {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 28px;
+      align-items: center;
+      padding: 72px 0 42px;
+    }
 
-        /* Contenedor de certificados */
-        .certificates {
-            margin-top: 50px;
-            padding: 30px;
-            background-color: #f9f9f9;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
+    .hero-card, .glass {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      backdrop-filter: blur(18px);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow);
+    }
 
-        /* Tarjeta del certificado */
-        .certificate {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
-            text-align: left;
-            position: relative;
-            animation: fadeInUp 1s ease-out;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
+    .hero-main {
+      padding: 42px;
+      position: relative;
+      overflow: hidden;
+    }
 
-        .certificate:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-        }
+    .hero-main::before {
+      content: "";
+      position: absolute;
+      inset: auto -70px -90px auto;
+      width: 240px;
+      height: 240px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(112,184,255,.35), transparent 70%);
+      filter: blur(12px);
+    }
 
-        /* Estilos del logo Nvidia */
-        .certificate-logo {
-            width: 50px;
-            height: auto;
-            position: absolute;
-            top: 15px;
-            right: 15px;
-        }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      color: #d6e7ff;
+      font-size: .95rem;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.05);
+      margin-bottom: 16px;
+    }
 
-        /* Estilos del enlace */
-        .certificate-link {
-            display: inline-block;
-            margin-top: 10px;
-            padding: 8px 15px;
-            background-color: #007BFF;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            transition: background 0.3s;
-        }
+    body.light .eyebrow { color: #28406d; }
 
-        .certificate-link:hover {
-            background-color: #0056b3;
-        }
-        /* Animaciones */
-        @keyframes slideUp {
-            from {
-                transform: translateY(30px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
+    h1 {
+      margin: 0;
+      font-size: clamp(2.6rem, 5vw, 5rem);
+      line-height: .95;
+      letter-spacing: -0.05em;
+    }
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
+    .gradient-text {
+      display: block;
+      background: linear-gradient(135deg, #ffffff 0%, #c2d8ff 30%, #8cbcff 60%, #8e7fff 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
 
-    </style>
+    body.light .gradient-text {
+      background: linear-gradient(135deg, #17325f 0%, #214b93 38%, #4768ff 70%, #6b57da 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+    }
+
+    .subtitle {
+      font-size: clamp(1.05rem, 2vw, 1.3rem);
+      color: var(--muted);
+      line-height: 1.8;
+      margin: 20px 0 28px;
+      max-width: 60ch;
+    }
+
+    .typed {
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .cta-row, .mini-tags, .hero-stats, .contact-pills, .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .btn {
+      text-decoration: none;
+      color: var(--text);
+      padding: 13px 18px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.06);
+      transition: .25s ease;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn.primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      border-color: transparent;
+      color: white;
+      box-shadow: 0 14px 30px rgba(112,184,255,.28);
+    }
+
+    .btn:hover { transform: translateY(-2px); }
+
+    .mini-tag {
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      color: var(--muted);
+      background: rgba(255,255,255,.04);
+    }
+
+    .hero-stats { margin-top: 26px; }
+
+    .stat-pill {
+      min-width: 140px;
+      padding: 16px 18px;
+      border-radius: 18px;
+      background: rgba(255,255,255,.05);
+      border: 1px solid var(--line);
+    }
+
+    .stat-pill strong {
+      display: block;
+      font-size: 1.5rem;
+      margin-bottom: 6px;
+      color: var(--text);
+    }
+
+    .hero-aside {
+      padding: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .profile-panel {
+      display: grid;
+      gap: 18px;
+    }
+
+    .avatar-shell {
+      padding: 12px;
+      border-radius: 30px;
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.03));
+    }
+
+    .avatar {
+      aspect-ratio: 1 / 1;
+      width: 100%;
+      border-radius: 24px;
+      position: relative;
+      overflow: hidden;
+      background:
+        linear-gradient(180deg, rgba(10,18,35,.1), rgba(10,18,35,.45)),
+        radial-gradient(circle at 50% 10%, rgba(255,255,255,.12), transparent 30%),
+        linear-gradient(135deg, rgba(112,184,255,.25), rgba(141,125,255,.18));
+    }
+
+    .avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .avatar-fallback {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      font-size: clamp(3rem, 6vw, 5rem);
+      font-weight: 800;
+      color: rgba(255,255,255,.86);
+      letter-spacing: -.04em;
+      background:
+        radial-gradient(circle at 50% 20%, rgba(255,255,255,.15), transparent 30%),
+        linear-gradient(160deg, #17315c, #2d5ea7 50%, #7359ff 100%);
+    }
+
+    .float-card {
+        position: absolute;
+        border: 1px solid rgba(255,255,255,.12);
+        background: rgba(8,15,27,.68);
+        backdrop-filter: blur(16px);
+        border-radius: 18px;
+        padding: 12px 14px;
+        box-shadow: var(--shadow);
+        animation: float 5.4s ease-in-out infinite;
+    }
+    body.light .float-card {
+        background: #1e293b;
+        color: #ffffff;
+        border: 1px solid rgba(255,255,255,.18);
+        box-shadow: 0 10px 24px rgba(15, 23, 42, 0.18);
+    }
+
+    .float-card.one { top: 22px; right: 10px; }
+    .float-card.two { bottom: -6px; left: 10px; animation-delay: .8s; }
+
+    @keyframes float {
+      0%,100% { transform: translateY(0px); }
+      50% { transform: translateY(-8px); }
+    }
+
+    main section {
+      padding: 24px 0;
+      scroll-margin-top: 110px;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 24px;
+    }
+
+    .section-head h2 {
+      margin: 0;
+      font-size: clamp(1.8rem, 2vw, 2.5rem);
+      letter-spacing: -.04em;
+    }
+
+    .section-head p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      max-width: 62ch;
+      line-height: 1.75;
+    }
+
+    .grid-3, .grid-2, .project-grid, .cert-grid, .stack-grid, .contact-grid {
+      display: grid;
+      gap: 18px;
+    }
+
+    .grid-3 { grid-template-columns: repeat(3, 1fr); }
+    .grid-2 { grid-template-columns: repeat(2, 1fr); }
+    .project-grid { grid-template-columns: repeat(2, 1fr); }
+    .cert-grid { grid-template-columns: repeat(2, 1fr); }
+    .stack-grid { grid-template-columns: repeat(4, 1fr); }
+    .contact-grid { grid-template-columns: 1.05fr .95fr; }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+      transition: transform .25s ease, border-color .25s ease, background .25s ease;
+    }
+
+    .card:hover { transform: translateY(-6px); border-color: rgba(112,184,255,.32); }
+
+    .metric .value {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 800;
+      letter-spacing: -.05em;
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .metric .label, .muted { color: var(--muted); }
+
+    .timeline {
+      position: relative;
+      padding-left: 24px;
+    }
+
+    .timeline::before {
+      content: "";
+      position: absolute;
+      top: 8px;
+      bottom: 8px;
+      left: 4px;
+      width: 2px;
+      background: linear-gradient(180deg, var(--accent), transparent);
+      opacity: .8;
+    }
+
+    .timeline-item {
+      position: relative;
+      padding: 4px 0 22px 24px;
+    }
+
+    .timeline-item::before {
+      content: "";
+      position: absolute;
+      left: -2px;
+      top: 10px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      box-shadow: 0 0 0 6px rgba(112,184,255,.1);
+    }
+
+    .timeline-item h3, .project-card h3, .cert-card h3, .stack-card h3 {
+      margin: 0 0 8px;
+      font-size: 1.2rem;
+    }
+
+    .timeline-item .meta, .project-meta, .cert-meta {
+      color: var(--muted);
+      font-size: .95rem;
+      margin-bottom: 12px;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .skill-pill {
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid var(--line);
+      color: var(--text);
+      font-size: .92rem;
+    }
+
+    .project-card {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .thumb {
+      border-radius: 18px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background: linear-gradient(135deg, rgba(112,184,255,.2), rgba(141,125,255,.18));
+      min-height: 210px;
+      position: relative;
+      isolation: isolate;
+    }
+
+    .thumb::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent, rgba(2,6,18,.45));
+      z-index: 1;
+    }
+
+    .thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform .45s ease;
+    }
+
+    .project-card:hover .thumb img { transform: scale(1.06); }
+
+    .thumb-label {
+      position: absolute;
+      left: 16px;
+      bottom: 16px;
+      z-index: 2;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.1);
+      border: 1px solid rgba(255,255,255,.18);
+      color: white;
+      font-weight: 700;
+      backdrop-filter: blur(10px);
+    }
+
+    .project-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: auto;
+    }
+
+    .cert-card {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cert-badge {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      padding: 8px 10px;
+      border-radius: 999px;
+      font-size: .82rem;
+      background: rgba(255,255,255,.06);
+      border: 1px solid var(--line);
+      color: var(--muted);
+    }
+
+    .stack-card {
+      text-align: center;
+      padding: 22px 16px;
+    }
+
+    .stack-icon {
+      width: 56px;
+      height: 56px;
+      margin: 0 auto 14px;
+      border-radius: 18px;
+      display: grid;
+      place-items: center;
+      font-size: 1.4rem;
+      background: linear-gradient(135deg, rgba(112,184,255,.2), rgba(141,125,255,.24));
+      border: 1px solid var(--line);
+    }
+
+    .contact-box {
+      padding: 28px;
+    }
+
+    .contact-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 14px 16px;
+      border-radius: 16px;
+      text-decoration: none;
+      color: var(--text);
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.04);
+      transition: .25s ease;
+    }
+
+    .contact-item:hover { transform: translateX(4px); border-color: rgba(112,184,255,.3); }
+
+    .footer {
+      padding: 40px 0 70px;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+
+    .reveal.in {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .hide { display: none !important; }
+
+    @media (max-width: 1080px) {
+      .hero, .contact-grid, .grid-2, .project-grid, .cert-grid, .stack-grid { grid-template-columns: 1fr; }
+      .grid-3 { grid-template-columns: repeat(2, 1fr); }
+      .hero-main, .hero-aside { padding: 28px; }
+    }
+
+    @media (max-width: 760px) {
+      .nav { border-radius: 24px; padding: 14px; }
+      .nav-links { justify-content: flex-start; }
+      .grid-3 { grid-template-columns: 1fr; }
+      .section-head { flex-direction: column; align-items: flex-start; }
+      .hero { padding-top: 42px; }
+      h1 { line-height: 1.02; }
+      .float-card { display: none; }
+      .stack-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <img src="mine.jpeg" alt="Mi Foto" class="profile-img">
-        <h1>Brayan Yesid Quintero Santander</h1>
-        <p>ᯤ Hello! I am a Systems Engineering student 🤓 at the Universidad Industrial de Santander 🎓. My projects focus on computer vision 👁️ and deep learning 🧠. Additionally, I am passionate about the universe 🌌 and enjoy exploring topics that combine astrophysics 🚀 and computing 💻.</p>
-        
-        <h2>Education</h2>
-        <div class="education">
-            <div class="degree">
-                <div class="title">BSc Systems Engineer</div>
-                <div class="institution">Universidad Industrial de Santander</div>
-                <div class="date">March 2022 – December 2026 (expected)</div>
-                <!-- <div class="gpa">GPA: <span>3.85/5.0</span></div> -->
-                <h3>Courses included:</h3>
-                <ul>
-                    <li>Digital Image Processing</li>
-                    <li>Artificial Intelligence</li>
-                    <li>Machine Learning</li>
-                    <li>Data Structures</li>
-                    <li>Computer Networks</li>
-                </ul>
-            </div>
-        </div>
-        
-        <div class="certificates">
-            <h2>Certificados</h2>
-            
-            <div class="certificate">
-                <img src="Nvidia_logo.png" alt="Nvidia Logo" class="certificate-logo">
-                <div class="title">Fundamentals of Deep Learning</div>
-                <div class="institution">Nvidia</div>
-                <div class="date">February 2025</div>
-                <div class="description">
-                    Fundamentals of Deep Learning is a course that introduces students to the world of deep learning.
-                </div>
-                <a href="https://learn.nvidia.com/certificates?id=GUiXUDtFRrSKXhGsAt2Xlw" class="certificate-link">See here</a>
-            </div>
+  <canvas id="starfield"></canvas>
+  <div class="noise"></div>
+  <div class="spotlight"></div>
 
-            <div class="certificate">
-                <img src="ef.png" alt="Nvidia Logo" class="certificate-logo">
-                <div class="title">English certificate</div>
-                <div class="institution">EF SET</div>
-                <div class="date">February 2023</div>
-                <div class="description">
-                    online certificate language exams
-                </div>
-                <a href="https://cert.efset.org/Lp9BcR" class="certificate-link">See here</a>
-            </div>
+  <div class="wrap topbar">
+    <nav class="nav">
+      <div class="brand">
+        <div class="brand-badge">BQ</div>
+        <div>
+          <div>Brayan Quintero</div>
+          <small class="muted">AI • Vision</small>
+        </div>
+      </div>
+      <div class="nav-links">
+        <a href="#inicio" class="active">Home</a>
+        <a href="#perfil">Profile</a>
+        <a href="#educacion">Education</a>
+        <a href="#proyectos">Projects</a>
+        <a href="#certificados">Certificates</a>
+        <a href="#contacto">Contact</a>
+        <button class="toggle-btn" id="themeToggle" aria-label="Cambiar tema">☀️ / 🌙</button>
+      </div>
+    </nav>
+  </div>
 
-        </div>
-        
-        <h2>Projects</h2>
-        <div class="project">
-            <img src="intel.jpg" alt="Logo Proyecto 2" class="project-img">
-            <div class="overlay-text"><a href="https://github.com/BrayanQuintero123/proyectoNavie/tree/main" target="_blank"> Project Naive Intel Image Classification </a></div>
-            <p>I implemented a deep learning-based classification model using PyTorch leveraging convolutional neural networks (CNNs) to accurately categorize images.</p>
-            <p class="date">Jan 20, 2025</p>
-        </div>
+  <header class="wrap hero" id="inicio">
+    <div class="hero-card hero-main reveal in">
+      <h1>
+        Brayan Yesid
+        <span class="gradient-text">Quintero Santander</span>
+      </h1>
+      <p class="subtitle">
+        Systems Engineering student at the Universidad Industrial de Santander, with a focus on
+        <span class="typed" id="typedText">computer vision</span>.
+        I am interested in building projects where artificial intelligence, deep learning and infrared intersect.
+      </p>
 
-        <div class="project">
-            <img src="diabetes.jpeg" alt="Logo Proyecto 1" class="project-img">
-            <div class="overlay-text"><a href="https://github.com/BrayanQuintero123/Diabetes-Classification" target="_blank">Diabetes Classification</a></div>
-            <p>We implemented several classification models to determine the presence or absence of diabetes in female patients over 18 years of age. We also used a neural network model using TensorFlow.
-            </p>
-            <p class="date">Dec 6, 2024</p>
-        </div>
+      <div class="mini-tags">
+        <span class="mini-tag">👁️ Computer Vision</span>
+        <span class="mini-tag">🧠 Deep Learning</span>
+        <span class="mini-tag">📊 Data Visualization</span>
+        <span class="mini-tag">🌌 Astrophysics + Computing</span>
+      </div>
 
-        <div class="project">
-            <img src="poster.jpeg" alt="Logo Proyecto 3" class="project-img">
-            <div class="overlay-text"><a href="https://github.com/CristianR8/spectral-image-classifier" target="_blank"> Spectral image classifier </a></div>
-            <p>In this project, we use the Pavia Center dataset, which represents a region of the city of Pavia in Italy, to perform advanced hyperspectral image analysis.</p>
-            <p class="date">Sep 15, 2024</p>
-        </div>
+      <div class="cta-row" style="margin-top:22px;">
+        <a class="btn primary" href="#proyectos">View projects</a>
+        <a class="btn" href="https://github.com/BrayanQuintero123" target="_blank" rel="noopener">GitHub</a>
+        <a class="btn" href="https://www.linkedin.com/in/brayan-quintero-7426a2205/" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
 
-        <div class="project">
-            <img src="stat.png" alt="Logo Proyecto 3" class="project-img">
-            <div class="overlay-text"><a href="https://github.com/BrayanQuintero123/MarketAnalytics/tree/main" target="_blank"> Market Analytics: Sales, Genres & Trends</a></div>
-            <p>This project explores the VGChartz video game sales dataset from Kaggle through statistical analysis and data visualizations. We identify key trends in the gaming industry, including the best-selling companies, the most popular genres and platforms, and regional sales distributions.
-                By examining sales evolution over time and highlighting top-performing titles, this analysis provides insights into market dynamics and the factors contributing to industry success.</p>
-            <p class="date">Jul 4, 2024</p>
-        </div>
-        
-        <h2>Contacto</h2>
-        <div class="social-links">
-            <a href="https://github.com/BrayanQuintero123" target="_blank">GitHub</a>
-            <a href="https://www.linkedin.com/in/brayan-quintero-7426a2205/" target="_blank">LinkedIn</a>
-            <a href="https://brayanquintero123.github.io/">byquintero.4@gmail.com</a>
-        </div>
+      <div class="hero-stats">
+        <div class="stat-pill"><strong data-count="6">0</strong><span class="muted">visible projects</span></div>
+        <div class="stat-pill"><strong data-count="2">0</strong><span class="muted">certificates</span></div>
+        <div class="stat-pill"><strong>2026</strong><span class="muted">graduation expected</span></div>
+      </div>
     </div>
+
+    <aside class="hero-card hero-aside reveal in">
+      <div class="profile-panel">
+        <div class="avatar-shell">
+          <div class="avatar">
+            <img src="mine.jpeg" alt="Foto de Brayan Yesid Quintero Santander" onerror="this.style.display='none'; this.nextElementSibling.style.display='grid';">
+            <div class="avatar-fallback" style="display:none;">BQ</div>
+          </div>
+        </div>
+
+        <div class="card" style="padding:18px;">
+          <strong style="display:block; margin-bottom:8px;">Research Interests</strong>
+          <div class="muted" style="line-height:1.8;">
+            Classification models, digital image processing, convolutional neural networks, and more.
+          </div>
+        </div>
+      </div>
+
+      <div class="float-card one">🎓 UIS · Systems Engineering</div>
+      <div class="float-card two">🚀 Science + Code + Design</div>
+    </aside>
+  </header>
+
+  <main class="wrap">
+    <section id="perfil" class="reveal">
+      <div class="section-head">
+        <div>
+          <h2>Academic profile</h2>
+        </div>
+      </div>
+
+      <div class="grid-3">
+        <article class="card metric">
+          <span class="value">Applied AI</span>
+          <div class="label">Use of CNNs, TensorFlow and PyTorch in classification and image analysis.</div>
+        </article>
+        <article class="card metric">
+          <span class="value">Research</span>
+          <div class="label">interest in combining computing, data, visual perception, spectral and absorption and the universe.</div>
+        </article>
+      </div>
+    </section>
+
+    <section id="educacion" class="reveal">
+      <div class="section-head">
+        <div>
+          <h2>Background</h2>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <article class="card timeline">
+          <div class="timeline-item">
+            <h3>BSc Systems Engineer</h3>
+            <div class="meta">Universidad Industrial de Santander · Marzo 2022 – Diciembre 2026 (esperado)</div>
+            <div class="muted" style="line-height:1.8;">
+              Training with emphasis on computer fundamentals, algorithms, artificial intelligence, machine learning and image processing.
+            </div>
+            <div class="pill-row">
+              <span class="skill-pill">Digital Image Processing</span>
+              <span class="skill-pill">Artificial Intelligence</span>
+              <span class="skill-pill">Machine Learning</span>
+              <span class="skill-pill">Data Structures</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="card">
+          <h3 style="margin-top:0;">Research Interests</h3>
+          <p class="muted" style="line-height:1.85; margin:0 0 18px;">
+            building
+          </p>
+          <div class="pill-row">
+            <span class="skill-pill">PyTorch</span>
+            <span class="skill-pill">TensorFlow</span>
+            <span class="skill-pill">Python</span>
+            <span class="skill-pill">Data Analysis</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="proyectos" class="reveal">
+      <div class="section-head">
+        <div>
+          <h2>Projects</h2>
+        </div>
+        <div class="filters">
+          <button class="chip-btn active" data-filter="all">all</button>
+          <button class="chip-btn" data-filter="vision">vision</button>
+          <button class="chip-btn" data-filter="classification">classification</button>
+          <button class="chip-btn" data-filter="analytics">analytics</button>
+        </div>
+      </div>
+
+      <div class="project-grid">
+        <article class="card project-card" data-category="vision classification">
+            <div class="thumb">
+                <img src="methane_multimodal.png" alt="Methane plume segmentation multimodal deep learning pipeline" onerror="this.parentElement.style.background='linear-gradient(135deg,#11213e,#1f5f9b,#73b9ff)'; this.style.display='none';">
+                <div class="thumb-label">Publication · Remote Sensing</div>
+            </div>
+            <div>
+                <h3>METHANE-PLUME SEGMENTATION FROM HYPERSPECTRAL SATELLITE IMAGERY VIA MULTIMODAL DEEP LEARNING</h3>
+                <div class="project-meta">Accepted for IGARSS 2026 · Multimodal DL · Segmentation</div>
+                <p class="muted" style="line-height:1.8; margin:0;">
+                    An efficient multimodal segmentation framework for methane plume detection in hyperspectral satellite imagery, combining physically meaningful methane enhancement cues with transformer-based RGB features across multiple semantic scales. Evaluated on MPDataset, it surpasses prior state-of-the-art results while achieving a stronger accuracy–efficiency trade-off for scalable real-world monitoring.
+                </p>
+                <div class="publication-chip">Accepted for IEEE International Geoscience and Remote Sensing Symposium 2026</div>
+                <img class="project-logo" src="igarss2026.png" alt="IGARSS 2026 logo" onerror="this.style.display='none';">
+            </div>
+            <div class="project-actions">
+                <span class="btn disabled">Code not public yet</span>
+            </div>
+    </article>
+
+    <article class="card project-card" data-category="vision classification">
+    <div class="thumb">
+        <img src="framework.webp" alt="Multimodal Vision-Language Transformer for Thermography Breast Cancer Classification" onerror="this.parentElement.style.background='linear-gradient(135deg,#4b1d57,#9253d6,#f2b76a)'; this.style.display='none';">
+        <div class="thumb-label">Publication · Medical AI</div>
+    </div>
+    <div>
+        <h3>Multimodal Vision-Language Transformer for Thermography Breast Cancer Classification</h3>
+        <div class="project-meta">2025 IEEE ColCACI · Vision-Language Transformer · Thermography</div>
+        <p class="muted" style="line-height:1.8; margin:0;">
+        A multimodal vision-language transformer for breast cancer classification from thermal imagery, combining image features with structured clinical metadata through cross-attention. The model is designed to work from a single thermal image regardless of view angle, delivering strong performance and improved sensitivity for early detection scenarios.
+        </p>
+    </div>
+    <div class="project-actions">
+        <a class="btn primary" href="https://github.com/cvail-research/breastcatt" target="_blank" rel="noopener">Code</a>
+        <a class="btn" href="https://ieeexplore.ieee.org/document/11230909" target="_blank" rel="noopener">Paper</a>
+    </div>
+    </article>
+        <article class="card project-card" data-category="vision classification">
+          <div class="thumb">
+            <img src="intel.jpg" alt="Naive Intel Image Classification" onerror="this.parentElement.style.background='linear-gradient(135deg,#203a73,#5a7cff,#7e63ff)'; this.style.display='none';">
+            <div class="thumb-label">Computer Vision</div>
+          </div>
+          <div>
+            <h3>Project Naive Intel Image Classification</h3>
+            <div class="project-meta">20 Jan 2025 · PyTorch · CNNs</div>
+            <p class="muted" style="line-height:1.8; margin:0;">
+                Implementation of a deep learning-based classification model to categorize images, leveraging convolutional networks and a structure oriented towards visual recognition.
+            </p>
+          </div>
+          <div class="project-actions">
+            <a class="btn primary" href="https://github.com/BrayanQuintero123/proyectoNavie/tree/main" target="_blank" rel="noopener">Code</a>
+          </div>
+        </article>
+
+        <article class="card project-card" data-category="classification">
+          <div class="thumb">
+            <img src="diabetes.jpeg" alt="Diabetes Classification" onerror="this.parentElement.style.background='linear-gradient(135deg,#153f50,#1d8797,#44d0c3)'; this.style.display='none';">
+            <div class="thumb-label">Healthcare AI</div>
+          </div>
+          <div>
+            <h3>Diabetes classification</h3>
+            <div class="project-meta">06 Dec 2024 · ML + Neural Networks</div>
+            <p class="muted" style="line-height:1.8; margin:0;">
+                Comparison of several classification models to detect the presence or absence of diabetes in female patients over 18 years of age, including a neural network in TensorFlow.
+            </p>
+          </div>
+          <div class="project-actions">
+            <a class="btn primary" href="https://github.com/BrayanQuintero123/Diabetes-Classification" target="_blank" rel="noopener">Code</a>
+          </div>
+        </article>
+
+        <article class="card project-card" data-category="vision classification">
+          <div class="thumb">
+            <img src="poster.jpeg" alt="Spectral image classifier" onerror="this.parentElement.style.background='linear-gradient(135deg,#292149,#4650b9,#6d8cff)'; this.style.display='none';">
+            <div class="thumb-label">Hyperspectral Imaging</div>
+          </div>
+          <div>
+            <h3>Spectral Image Classifier</h3>
+            <div class="project-meta">15 Sep 2024 · Dataset Pavia Center</div>
+            <p class="muted" style="line-height:1.8; margin:0;">
+                Work focused on advanced analysis of hyperspectral images using the Pavia Center dataset, useful for classification tasks in complex remote sensing scenarios.
+            </p>
+          </div>
+          <div class="project-actions">
+            <a class="btn primary" href="https://github.com/CristianR8/spectral-image-classifier" target="_blank" rel="noopener">Code</a>
+          </div>
+        </article>
+
+        <article class="card project-card" data-category="analytics">
+          <div class="thumb">
+            <img src="stat.png" alt="Market Analytics" onerror="this.parentElement.style.background='linear-gradient(135deg,#3a234d,#8446a3,#ff7fb2)'; this.style.display='none';">
+            <div class="thumb-label">Data Analytics</div>
+          </div>
+          <div>
+            <h3>Market Analytics: Sales, Genres & Trends</h3>
+            <div class="project-meta">04 Jul 2024 · Data Visualization</div>
+            <p class="muted" style="line-height:1.8; margin:0;">
+            Statistical analysis of the VGChartz video game sales dataset to identify companies, genres, platforms, and dominant trends by region and time evolution
+            </p>
+          </div>
+          <div class="project-actions">
+            <a class="btn primary" href="https://github.com/BrayanQuintero123/MarketAnalytics/tree/main" target="_blank" rel="noopener">Code</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="certificados" class="reveal">
+      <div class="section-head">
+        <div>
+          <h2>Certificados</h2>
+        </div>
+      </div>
+
+      <div class="cert-grid">
+        <article class="card cert-card">
+          <div class="cert-badge">NVIDIA</div>
+          <h3>Fundamentals of Deep Learning</h3>
+          <div class="cert-meta">NVIDIA · February 2025</div>
+          <p class="muted" style="line-height:1.8;">
+            Introductory course to the world of deep learning, with a foundation for understanding neural networks, model training, and modern AI applications.
+          </p>
+          <a class="btn primary" href="https://learn.nvidia.com/certificates?id=GUiXUDtFRrSKXhGsAt2Xlw" target="_blank" rel="noopener">see it yourself</a>
+        </article>
+
+        <article class="card cert-card">
+          <div class="cert-badge">EF SET</div>
+          <h3>English Certificate</h3>
+          <div class="cert-meta">EF SET · February 2023</div>
+          <p class="muted" style="line-height:1.8;">
+            Online English certification, useful for strengthening academic and technical profiles and accessing international documentation in computing and research.
+          </p>
+          <a class="btn primary" href="https://cert.efset.org/Lp9BcR" target="_blank" rel="noopener">see it yourself</a>
+        </article>
+      </div>
+    </section>
+
+    <section class="reveal">
+      <div class="section-head">
+        <div>
+          <h2>Stack and tools</h2>
+        </div>
+      </div>
+
+      <div class="stack-grid">
+        <article class="card stack-card"><div class="stack-icon">🐍</div><h3>Python</h3><div class="muted"></div></article>
+        <article class="card stack-card"><div class="stack-icon">🔥</div><h3>PyTorch</h3><div class="muted"></div></article>
+        <article class="card stack-card"><div class="stack-icon">🧩</div><h3>TensorFlow</h3><div class="muted"></div></article>
+        <article class="card stack-card"><div class="stack-icon">📈</div><h3>Analytics</h3><div class="muted"></div></article>
+      </div>
+    </section>
+
+    <section id="contacto" class="reveal">
+      <div class="section-head">
+        <div>
+          <h2>Contacto</h2>
+        </div>
+      </div>
+
+      <div class="contact-grid">
+        <article class="card contact-box">
+          <h3 style="margin-top:0;">Ready to collaborate</h3>
+          <p class="muted" style="line-height:1.85;">
+            I am interested in projects related to computer vision, machine learning, data analysis, applied research, thermal imaging, and more.
+          </p>
+          <div class="contact-pills">
+            <span class="skill-pill">Open to research</span>
+            <span class="skill-pill">Portfolio ready</span>
+            <span class="skill-pill">Academic profile</span>
+          </div>
+        </article>
+
+        <article class="card contact-box">
+          <h3 style="margin-top:0;">More about me</h3>
+          <div class="contact-list">
+            <a class="contact-item" href="https://github.com/BrayanQuintero123" target="_blank" rel="noopener"><span>GitHub</span><strong>@BrayanQuintero123</strong></a>
+            <a class="contact-item" href="https://www.linkedin.com/in/brayan-quintero-7426a2205/" target="_blank" rel="noopener"><span>LinkedIn</span><strong>Perfil profesional</strong></a>
+            <a class="contact-item" href="mailto:byquintero.4@gmail.com"><span>Email</span><strong>byquintero.4@gmail.com</strong></a>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="wrap footer">
+    Diseñado para que sea memorable.
+  </footer>
+
+  <script>
+    const typedWords = [
+      'computer vision',
+      'deep learning',
+      'data visualization',
+      'AI + astrophysics'
+    ];
+
+    const typedText = document.getElementById('typedText');
+    let wordIndex = 0;
+    let charIndex = 0;
+    let deleting = false;
+
+    function tickTyping() {
+      const current = typedWords[wordIndex];
+      if (!deleting) {
+        charIndex++;
+        typedText.textContent = current.slice(0, charIndex);
+        if (charIndex === current.length) {
+          deleting = true;
+          setTimeout(tickTyping, 1400);
+          return;
+        }
+      } else {
+        charIndex--;
+        typedText.textContent = current.slice(0, charIndex);
+        if (charIndex === 0) {
+          deleting = false;
+          wordIndex = (wordIndex + 1) % typedWords.length;
+        }
+      }
+      setTimeout(tickTyping, deleting ? 55 : 85);
+    }
+    tickTyping();
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('in');
+      });
+    }, { threshold: 0.14 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    const counterObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        const el = entry.target;
+        if (el.dataset.done) return;
+        el.dataset.done = '1';
+        const target = Number(el.dataset.count || 0);
+        const duration = 1300;
+        const start = performance.now();
+
+        function update(now) {
+          const progress = Math.min((now - start) / duration, 1);
+          const value = Math.floor(progress * target);
+          el.textContent = value.toLocaleString('es-CO');
+          if (progress < 1) requestAnimationFrame(update);
+        }
+        requestAnimationFrame(update);
+      });
+    }, { threshold: 0.7 });
+
+    document.querySelectorAll('[data-count]').forEach(el => counterObserver.observe(el));
+
+    const filterButtons = document.querySelectorAll('[data-filter]');
+    const projects = document.querySelectorAll('.project-card');
+    filterButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const filter = btn.dataset.filter;
+        projects.forEach(project => {
+          const categories = project.dataset.category;
+          project.classList.toggle('hide', !(filter === 'all' || categories.includes(filter)));
+        });
+      });
+    });
+
+    const sections = [...document.querySelectorAll('main section, header.hero')];
+    const navLinks = [...document.querySelectorAll('.nav-links a')];
+    const linkById = Object.fromEntries(navLinks.map(a => [a.getAttribute('href').replace('#', ''), a]));
+
+    const navObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          navLinks.forEach(link => link.classList.remove('active'));
+          const active = linkById[entry.target.id];
+          if (active) active.classList.add('active');
+        }
+      });
+    }, { threshold: 0.45 });
+
+    sections.forEach(section => section.id && navObserver.observe(section));
+
+    const themeToggle = document.getElementById('themeToggle');
+    const savedTheme = localStorage.getItem('bq-theme');
+    if (savedTheme === 'light') document.body.classList.add('light');
+
+    themeToggle.addEventListener('click', () => {
+      document.body.classList.toggle('light');
+      localStorage.setItem('bq-theme', document.body.classList.contains('light') ? 'light' : 'dark');
+    });
+
+    document.addEventListener('mousemove', (e) => {
+      document.documentElement.style.setProperty('--mx', e.clientX + 'px');
+      document.documentElement.style.setProperty('--my', e.clientY + 'px');
+    });
+
+    const canvas = document.getElementById('starfield');
+    const ctx = canvas.getContext('2d');
+    let stars = [];
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth * devicePixelRatio;
+      canvas.height = window.innerHeight * devicePixelRatio;
+      canvas.style.width = window.innerWidth + 'px';
+      canvas.style.height = window.innerHeight + 'px';
+      ctx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
+      createStars();
+    }
+
+    function createStars() {
+      const amount = Math.min(160, Math.floor(window.innerWidth / 10));
+      stars = Array.from({ length: amount }, () => ({
+        x: Math.random() * window.innerWidth,
+        y: Math.random() * window.innerHeight,
+        r: Math.random() * 1.8 + 0.3,
+        a: Math.random() * 0.8 + 0.1,
+        s: Math.random() * 0.18 + 0.03
+      }));
+    }
+
+    function drawStars() {
+      ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+      const isLight = document.body.classList.contains('light');
+      stars.forEach(star => {
+        star.y += star.s;
+        if (star.y > window.innerHeight) {
+          star.y = -2;
+          star.x = Math.random() * window.innerWidth;
+        }
+        ctx.beginPath();
+        ctx.arc(star.x, star.y, star.r, 0, Math.PI * 2);
+        ctx.fillStyle = isLight ? `rgba(37,84,162,${star.a * 0.45})` : `rgba(255,255,255,${star.a})`;
+        ctx.fill();
+      });
+      requestAnimationFrame(drawStars);
+    }
+
+    resizeCanvas();
+    drawStars();
+    window.addEventListener('resize', resizeCanvas);
+  </script>
 </body>
 </html>
