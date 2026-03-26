@@ -717,7 +717,14 @@
           <small class="muted">AI • Vision</small>
         </div>
       </div>
-      <div class="nav-links">
+
+      <button class="hamburger" id="hamburgerBtn" aria-label="Abrir menú" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <div class="nav-links" id="navLinks">
         <a href="#inicio" class="active">Home</a>
         <a href="#perfil">Profile</a>
         <a href="#educacion">Education</a>
@@ -1196,6 +1203,24 @@
     resizeCanvas();
     drawStars();
     window.addEventListener('resize', resizeCanvas);
+
+  const hamburgerBtn = document.getElementById('hamburgerBtn');
+  const navLinksMenu = document.getElementById('navLinks');
+
+  hamburgerBtn.addEventListener('click', () => {
+    const isOpen = navLinksMenu.classList.toggle('open');
+    hamburgerBtn.classList.toggle('open', isOpen);
+    hamburgerBtn.setAttribute('aria-expanded', isOpen);
+  });
+
+  // Cerrar el menú al hacer click en cualquier link
+  navLinksMenu.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      navLinksMenu.classList.remove('open');
+      hamburgerBtn.classList.remove('open');
+      hamburgerBtn.setAttribute('aria-expanded', 'false');
+    });
+  });    
   </script>
 </body>
 </html>
